@@ -48,3 +48,7 @@ this is a hint
 {% endcontent-ref %}
 
 ## test-h1-second
+
+### test-h2
+
+#### test-h3
