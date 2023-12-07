@@ -22,3 +22,4 @@
 
 | row 1 | <ul><li>first</li><li>second</li></ul> |
 | ----- | -------------------------------------- |
+| row 2 | <p>+ third<br>+ fourth</p>             |
