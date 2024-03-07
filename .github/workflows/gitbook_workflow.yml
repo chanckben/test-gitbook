@@ -35,4 +35,6 @@ jobs:
             echo "File: ${file}"
             export PAGE_PATH=$(python get-file-path.py "${file}")
             echo "Page path: ${PAGE_PATH}"
+            export FILE_CONTENT=$(cat ${file})
+            echo "File content: ${FILE_CONTENT}"
           done
