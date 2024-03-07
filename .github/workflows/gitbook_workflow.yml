@@ -34,5 +34,5 @@ jobs:
           for file in "${file_arr[@]}"; do
             echo "File: ${file}"
             python get-file-path.py "${file}"
-            echo ${{ steps.vars.outputs.page_path }}
+            echo ${{ steps.get-page-path.outputs.page_path }}
           done
