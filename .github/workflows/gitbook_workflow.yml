@@ -33,6 +33,6 @@ jobs:
           IFS="," read -a file_arr <<< ${{ steps.changed-files.outputs.all_changed_files }}
           for file in "${file_arr[@]}"; do
             echo "File: ${file}"
-            python get-file-path.py "${file}"
-            echo ${{ steps.get-page-path.outputs.page_path }}
+            export PAGE_PATH=$(python get-file-path.py "${file}")
+            echo "Page path: ${PAGE_PATH}"
           done
