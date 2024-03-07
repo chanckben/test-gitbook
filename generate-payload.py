@@ -1,8 +1,11 @@
+import json
 import re
 import sys
 
-if len(sys.argv) > 1:
+if len(sys.argv) > 2:
     file_dir = sys.argv[1]
+    commit_sha = sys.argv[2]
+    file_list = file_dir.split(',')
 else:
     raise ValueError("Missing file path argument")
 
@@ -15,6 +18,7 @@ contents = re.sub(r'\\', r'', contents)
 
 scheme_header_pattern = re.compile(r'(?:^|\n)## +(\S.*)\n+')
 link_lst_item_pattern = re.compile(r'( *)\* \[(.+)\]\((.+)\)')
+changed_files_list = []
 
 if not scheme_header_pattern.search(contents):
     raise ValueError("Invalid file structure")
@@ -40,6 +44,20 @@ for i in range(1, len(scheme_files), 2):
                 page_path = page_path[:-1] + [page_title]
             curr_indent = len(spaces)
 
-            if page_link == file_dir:
-                print(page_path)
-                break
+            if page_link in file_list:
+                with open(page_link, encoding='utf-8') as page:
+                    page_content = page.read()
+                    page.close()
+                page_object = {
+                    "source_link": page_link,
+                    "page_path": page_path,
+                    "page_content": page_content
+                }
+                changed_files_list.append(page_object)
+
+output = {
+    "commit_sha": commit_sha,
+    "changed_files_list": changed_files_list
+}
+
+print(json.dumps(output))

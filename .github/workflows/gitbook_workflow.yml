@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '**.md'
 
 jobs:
   trigger:
@@ -27,14 +29,8 @@ jobs:
         with:
           separator: ","
 
-      - name: Get page path
-        id: get-page-path
+      - name: Generate JSON payload
+        id: generate-payload
         run: |
-          IFS="," read -a file_arr <<< ${{ steps.changed-files.outputs.all_changed_files }}
-          for file in "${file_arr[@]}"; do
-            echo "File: ${file}"
-            export PAGE_PATH=$(python get-file-path.py "${file}")
-            echo "Page path: ${PAGE_PATH}"
-            export FILE_CONTENT=$(cat ${file})
-            echo "File content: ${FILE_CONTENT}"
-          done
+          export PAYLOAD=$(python generate-payload.py ${{ steps.changed-files.outputs.all_changed_files }} ${{ github.sha }})
+          echo "Payload: ${PAYLOAD}"
