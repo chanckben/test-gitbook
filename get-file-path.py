@@ -41,5 +41,5 @@ for i in range(1, len(scheme_files), 2):
             curr_indent = len(spaces)
 
             if page_link == file_dir:
-                print(f'page_path={page_path}')
+                print(page_path)
                 break
