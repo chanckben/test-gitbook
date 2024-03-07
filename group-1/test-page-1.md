@@ -6,7 +6,7 @@ description: this is a test page.
 
 ## test-h1
 
-![](.gitbook/assets/multiple\_different\_check\_marks.jpg)some inline image
+![](../.gitbook/assets/multiple\_different\_check\_marks.jpg)some inline image
 
 {% tabs %}
 {% tab title="First Tab" %}
@@ -37,14 +37,14 @@ tab-2-content
 
 ***
 
-<figure><img src=".gitbook/assets/multiple_different_check_marks.jpg" alt=""><figcaption><p>pic1</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/multiple_different_check_marks.jpg" alt=""><figcaption><p>pic1</p></figcaption></figure>
 
 {% hint style="info" %}
 this is a hint
 {% endhint %}
 
-{% content-ref url="./" %}
-[.](./)
+{% content-ref url="../" %}
+[..](../)
 {% endcontent-ref %}
 
 ## test-h1-second
