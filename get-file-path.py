@@ -1,8 +1,5 @@
-import os
 import re
 import sys
-
-output_file = os.getenv('GITHUB_OUTPUT')
 
 if len(sys.argv) > 1:
     file_dir = sys.argv[1]
@@ -44,6 +41,5 @@ for i in range(1, len(scheme_files), 2):
             curr_indent = len(spaces)
 
             if page_link == file_dir:
-                with open(output_file, 'a') as out:
-                    out.write(f'page_path={page_path}')
+                print(f'page_path={page_path}')
                 break
