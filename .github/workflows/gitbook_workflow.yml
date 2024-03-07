@@ -26,7 +26,7 @@ jobs:
         id: get-page-path
         run: |
           CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
-          IFS="," read -a file_arr <<< $CHANGED_FILES
+          IFS="," read -a file_arr <<< ${{ steps.changed-files.outputs.all_changed_files }}
           for file in "${file_arr[@]}"; do
             python get-file-path.py "${file}"
             echo ${{ steps.vars.outputs.page_path }}
