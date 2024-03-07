@@ -16,6 +16,11 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
       - name: Get all changed files and use a comma separator in the output
         id: changed-files
         uses: tj-actions/changed-files@v42
@@ -28,4 +33,6 @@ jobs:
           IFS="," read -a file_arr <<< ${{ steps.changed-files.outputs.all_changed_files }}
           for file in "${file_arr[@]}"; do
             echo "File: ${file}"
+            python get-file-path.py "${file}"
+            echo ${{ steps.vars.outputs.page_path }}
           done
