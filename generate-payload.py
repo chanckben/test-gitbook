@@ -57,8 +57,10 @@ for i in range(1, len(scheme_files), 2):
 
 output = {
     "event_type": "trigger-workflow",
-    "sha": commit_sha,
-    "changed_files_list": changed_files_list
+    "client_payload": {
+        "sha": commit_sha,
+        "changed_files_list": changed_files_list
+    }
 }
 
 print(json.dumps(output))
