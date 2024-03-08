@@ -56,7 +56,8 @@ for i in range(1, len(scheme_files), 2):
                 changed_files_list.append(page_object)
 
 output = {
-    "commit_sha": commit_sha,
+    "event_type": "trigger-workflow",
+    "sha": commit_sha,
     "changed_files_list": changed_files_list
 }
 
