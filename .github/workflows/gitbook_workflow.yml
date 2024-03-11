@@ -18,11 +18,6 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
       - name: Get all changed files and use a comma separator in the output
         id: changed-files
         uses: tj-actions/changed-files@v42
@@ -32,10 +27,11 @@ jobs:
       - name: Generate JSON payload
         id: generate-payload
         run: |
-          payload=$(python generate-payload.py ${{ steps.changed-files.outputs.all_changed_files }} ${{ github.sha }})
           repo_owner="chanckben"
           repo_name="test-target"
-          echo "Payload: ${payload}"
+          event_type="trigger-workflow"
+          changed_files="${{ steps.changed-files.outputs.all_changed_files }}"
+          commit_sha="${{ github.sha }}"
 
           curl -L \
             -X POST \
@@ -43,4 +39,4 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.PAT }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
-            -d "$payload"
+            -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"changed_files\": \"$changed_files\", \"sha\": \"$commit_sha\"}}"
