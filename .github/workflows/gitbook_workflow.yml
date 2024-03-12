@@ -30,4 +30,4 @@ jobs:
           token: ${{ secrets.PAT }}
           repository: chanckben/test-target
           event-type: trigger-workflow
-          client_payload: '{"changed_files": "${{ steps.changed-files.outputs.all_changed_files }}", "sha": "${{ github.sha }}"}'
+          client-payload: '{"changed_files": "${{ steps.changed-files.outputs.all_changed_files }}", "sha": "${{ github.sha }}"}'
