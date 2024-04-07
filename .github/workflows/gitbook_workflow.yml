@@ -21,17 +21,23 @@ jobs:
         with:
           separator: ","
 
-      - name: Execute Prefect flow
-        id: prefect-flow
+      - name: Install Prefect
         run: |
           pip install -U "prefect==2.16.9"
+
+      - name: Login to Prefect Cloud
+        run: |
           prefect cloud login -k ${{ secrets.PREFECT_API_KEY }} -w govtexttechgovsg/govtext
-          : # execute staging flow run
+
+      - name: Execute staging flow run
+        run: |
           prefect deployment run 'update-embeddings/moe-qna' \
             --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \
             --param deleted_files="${{ steps.changed-files.outputs.deleted_files }}" \
             --param commit_sha="${{ github.sha }})"
-          : # execute production flow run
+
+      - name: Execute production flow run
+        run: |
           prefect deployment run 'update-embeddings/prd-moe-qna' \
             --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \
             --param deleted_files="${{ steps.changed-files.outputs.deleted_files }}" \
