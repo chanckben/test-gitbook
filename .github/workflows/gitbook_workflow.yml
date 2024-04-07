@@ -24,10 +24,12 @@ jobs:
         with:
           separator: ","
 
-      - name: Repository dispatch
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.PAT }}
-          repository: chanckben/test-target
-          event-type: trigger-workflow
-          client-payload: '{"changed_files": "${{ steps.changed-files.outputs.all_changed_files }}", "sha": "${{ github.sha }}"}'
+      - name: Execute Prefect flow
+        id: prefect-flow
+        run: |
+          pip install -U "prefect==2.16.9"
+          prefect cloud login -k ${{ secrets.PREFECT_API_KEY }} -w govtexttechgovsg/govtext
+          prefect deployment run 'update-embeddings/moe-qna' \
+            --param changed_files=${{ steps.changed-files.outputs.all_changed_files }} \
+            --param deleted_files=${{ steps.changed-files.outputs.deleted_files }} \
+            --param commit_sha=${{ github.sha }})
