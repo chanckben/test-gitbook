@@ -8,4 +8,4 @@
 
 ## Group 2
 
-* [test-page-3](group-2/test-page-3.md)
+* [test-page-2](group-2/test-page-2.md)
