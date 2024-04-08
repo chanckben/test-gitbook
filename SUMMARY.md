@@ -9,3 +9,4 @@
 ## Group 2
 
 * [test-page-2](group-2/test-page-2.md)
+* [copy-page](group-2/copy-page.md)
