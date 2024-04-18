@@ -5,7 +5,6 @@
 ## Group 1
 
 * [test-page-1](group-1/test-page-1.md)
-* [copy-page](group-1/copy-page.md)
 
 ## Group 2
 
