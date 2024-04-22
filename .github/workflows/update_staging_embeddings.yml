@@ -38,6 +38,8 @@ jobs:
             -B main
             -H staging-main
             --title "docs(*): update production documents"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Execute staging flow run
         run: |
