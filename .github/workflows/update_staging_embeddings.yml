@@ -35,9 +35,9 @@ jobs:
       - name: Create PR
         run: |
           gh pr create \
-            -B main
-            -H staging-main
-            --title "docs(*): update production documents"
+            -B main \
+            -H staging-main \
+            --title "docs(*): update production documents" \
             --body "Merge staging changes to production"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
