@@ -1,0 +1,40 @@
+name: update production embeddings
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.md'
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get all changed files and use a comma separator in the output
+        id: changed-files
+        uses: tj-actions/changed-files@v42
+        with:
+          files_ignore: |
+            SUMMARY.md
+          output_renamed_files_as_deleted_and_added: true
+          separator: ","
+
+      - name: Install Prefect
+        run: |
+          pip install -U "prefect==2.16.9"
+
+      - name: Login to Prefect Cloud
+        run: |
+          prefect cloud login -k ${{ secrets.PREFECT_API_KEY }} -w govtexttechgovsg/govtext
+
+      - name: Execute production flow run
+        run: |
+          prefect deployment run 'update-embeddings/prd-moe-qna' \
+            --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \
+            --param deleted_files="${{ steps.changed-files.outputs.deleted_files }}" \
+            --param commit_sha="${{ github.sha }})"

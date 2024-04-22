@@ -1,9 +1,9 @@
-name: GitBook Workflow
+name: update staging embeddings
 
 on:
   push:
     branches:
-      - main
+      - staging-main
     paths:
       - '**.md'
 
@@ -39,9 +39,9 @@ jobs:
             --param deleted_files="${{ steps.changed-files.outputs.deleted_files }}" \
             --param commit_sha="${{ github.sha }})"
 
-      - name: Execute production flow run
+      - name: Create PR
         run: |
-          prefect deployment run 'update-embeddings/prd-moe-qna' \
-            --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \
-            --param deleted_files="${{ steps.changed-files.outputs.deleted_files }}" \
-            --param commit_sha="${{ github.sha }})"
+          gh pr create \
+            -B main
+            -H staging-main
+            --title "docs(*): update production documents"
