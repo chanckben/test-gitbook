@@ -32,16 +32,16 @@ jobs:
         run: |
           prefect cloud login -k ${{ secrets.PREFECT_API_KEY }} -w govtexttechgovsg/govtext
 
-      - name: Execute staging flow run
-        run: |
-          prefect deployment run 'update-embeddings/moe-qna' \
-            --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \
-            --param deleted_files="${{ steps.changed-files.outputs.deleted_files }}" \
-            --param commit_sha="${{ github.sha }})"
-
       - name: Create PR
         run: |
           gh pr create \
             -B main
             -H staging-main
             --title "docs(*): update production documents"
+
+      - name: Execute staging flow run
+        run: |
+          prefect deployment run 'update-embeddings/moe-qna' \
+            --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \
+            --param deleted_files="${{ steps.changed-files.outputs.deleted_files }}" \
+            --param commit_sha="${{ github.sha }})"
