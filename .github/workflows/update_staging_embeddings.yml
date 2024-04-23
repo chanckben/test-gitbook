@@ -33,14 +33,12 @@ jobs:
           prefect cloud login -k ${{ secrets.PREFECT_API_KEY }} -w govtexttechgovsg/govtext
 
       - name: Create PR
-        run: |
-          gh pr create \
-            -B main \
-            -H staging-main \
-            --title "docs(*): update production documents" \
-            --body "Merge staging changes to production"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: main
+          base: staging-main
+          title: "docs(*): update production documents"
+          body: "Merge staging changes to production"
 
       - name: Execute staging flow run
         run: |
