@@ -35,8 +35,8 @@ jobs:
       - name: Create PR
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: main
-          base: staging-main
+          branch: staging-main
+          base: main
           title: "docs(*): update production documents"
           body: "Merge staging changes to production"
 
