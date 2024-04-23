@@ -37,6 +37,7 @@ jobs:
         with:
           branch: staging-main
           base: main
+          commit-message: "docs(*): update production documents"
           title: "docs(*): update production documents"
           body: "Merge staging changes to production"
 
