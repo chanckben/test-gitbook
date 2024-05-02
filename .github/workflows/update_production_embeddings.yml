@@ -39,4 +39,4 @@ jobs:
           prefect deployment run 'update-embeddings/prd-moe-qna' \
             --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \
             --param deleted_files="${{ steps.changed-files.outputs.deleted_files }}" \
-            --param commit_sha="${{ github.sha }})"
+            --param commit_sha="${{ github.sha }}"

@@ -48,7 +48,7 @@ jobs:
 
       - name: Execute staging flow run
         run: |
-          prefect deployment run 'update-embeddings/moe-qna' \
+          prefect deployment run 'update-embeddings/stg-moe-qna' \
             --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \
             --param deleted_files="${{ steps.changed-files.outputs.deleted_files }}" \
-            --param commit_sha="${{ github.sha }})"
+            --param commit_sha="${{ github.sha }}"
