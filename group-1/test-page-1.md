@@ -60,5 +60,3 @@ new new text
 new new new text
 
 nnnn text
-
-new text
