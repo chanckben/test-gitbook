@@ -24,18 +24,19 @@ jobs:
           output_renamed_files_as_deleted_and_added: true
           separator: ","
 
-      - name: Install Prefect
+      - name: Exit early if no changes
         if: steps.changed-files.outputs.any_changed == 'true'
+        run: exit 0
+
+      - name: Install Prefect
         run: |
           pip install -U "prefect==2.16.9"
 
       - name: Login to Prefect Cloud
-        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           prefect cloud login -k ${{ secrets.PREFECT_API_KEY }} -w govtexttechgovsg/govtext
 
       - name: Create PR
-        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           gh pr create \
             -B main \
@@ -48,7 +49,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Execute staging flow run
-        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           prefect deployment run 'update-embeddings/stg-moe-qna' \
             --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \
