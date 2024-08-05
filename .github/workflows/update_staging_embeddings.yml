@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - staging-main
-    paths:
-      - '**.md'
 
 jobs:
   trigger:
@@ -25,6 +23,10 @@ jobs:
             SUMMARY.md
           output_renamed_files_as_deleted_and_added: true
           separator: ","
+
+      - name: Get changed files
+        run: |
+          echo ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Install Prefect
         run: |
