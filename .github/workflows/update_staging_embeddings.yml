@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - staging-main
-    paths:
-      - '**.md'
 
 jobs:
   trigger:
@@ -26,15 +24,22 @@ jobs:
           output_renamed_files_as_deleted_and_added: true
           separator: ","
 
+      - name: Store flag for modified files
+        run: |
+          echo "MODIFIED=${{ steps.changed-files.outputs.any_modified }}" >> "$GITHUB_ENV"
+
       - name: Install Prefect
+        if: env.MODIFIED == 'true'
         run: |
           pip install -U "prefect==2.16.9"
 
       - name: Login to Prefect Cloud
+        if: env.MODIFIED == 'true'
         run: |
           prefect cloud login -k ${{ secrets.PREFECT_API_KEY }} -w govtexttechgovsg/govtext
 
       - name: Create PR
+        if: env.MODIFIED == 'true'
         run: |
           gh pr create \
             -B main \
@@ -47,6 +52,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Execute staging flow run
+        if: env.MODIFIED == 'true'
         run: |
           prefect deployment run 'update-embeddings/stg-moe-qna' \
             --param changed_files="${{ steps.changed-files.outputs.all_changed_files }}" \

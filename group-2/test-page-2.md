@@ -25,3 +25,7 @@
 | row 2 | <p>+ third<br>+ fourth</p>             |
 
 nanana text
+
+[Google](https://www.google.com/)
+
+[Another page](../group-1/test-page-1.md)
